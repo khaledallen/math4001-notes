@@ -1,0 +1,149 @@
+\documentclass[12pt]{article}
+ 
+\usepackage[margin=1in]{geometry} 
+\usepackage{amsmath,amsthm,amssymb,graphicx,mathtools,tikz,hyperref}
+
+\usetikzlibrary{positioning}
+
+\newcommand{\n}{\mathbb{N}}
+\newcommand{\z}{\mathbb{Z}}
+\newcommand{\q}{\mathbb{Q}}
+\newcommand{\cx}{\mathbb{C}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\field}{\mathbb{F}}
+\newcommand{\ita}[1]{\textit{#1}}
+\newcommand{\com}[2]{#1\backslash#2}
+\newcommand{\oneton}{\{1,2,3,...,n\}}
+\newcommand\idea[1]{\begin{gather*}#1\end{gather*}}
+\newcommand\ef{\ita{f} }
+\newcommand\eff{\ita{f}}
+\newcommand\proofs[1]{\begin{proof}#1\end{proof}}
+\newcommand\inv[1]{#1^{-1}}
+\newcommand\setb[1]{\{#1\}}
+\newcommand\en{\ita{n }}
+\newcommand{\vbrack}[1]{\langle #1\rangle}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{proposition}{Proposition}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+ 
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+
+
+
+\newenvironment{question}[2][QUESTION]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+
+
+\newenvironment{example}[2][Example]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{exercise}[2][Exercise]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+
+ \hypersetup{
+ colorlinks,
+ linkcolor=blue
+ }
+\begin{document}
+\date{}
+
+ 
+\title{Analysis 2 Notes}
+\author{Khaled Allen\\Mark Coffey \\
+MATH 4001\\University of Colorado\\ Text - } 
+ 
+\maketitle
+\section{The directional derivative}
+We want to get a parallel notion of derivative for multivariable functions as that for single-variable functions. We will define a directional derivative, explore its relationship to the gradient vector and the partial derivative, and then examine why it is insufficient to give us the same power as the one-dimensional derivative.
+\begin{definition}
+The derivative of a vector-valued function $f:\R^n\to\R$ in the direction $\vec{u}$ is denoted $D_u f$ or $\dfrac{\partial f}{\partial \vec{u}}$ and is given by
+
+$$D_u f=\lim_{t\to\infty}\frac{f(\vec{x}+t{\vec{u})}-f(\vec{x})}{t}$$
+
+where $\vec{u}$ is a unit vector, $\vec{x},\vec{u}\in\R$.
+\end{definition} 
+
+\begin{remark}
+This basically means restricting the function along the vector $\vec{u}$ and then taking the derivative of the resulting single variable function. Gianquinta gives it as a completely new function, effectively expressing $f$ as part of a single variable function.
+
+In general, this is a common technique in analysis 2: express a multivariable function as a single variable and then perform a familiar operation from single-variable calculus.
+\end{remark}
+
+\subsection{Relationship to the Gradient and Partial Derivative}
+$D_u f(\vec{x}$ is related to the gradient via
+$$D_u f(\vec{x}=\nabla f(\vec{x})\cdot \vec{u})$$
+
+We can therefore express $\frac{\partial f}{\partial x_i}$ as $D_{x_i}f(\vec{x})=\nabla f(\vec{x})\cdot e^i$.
+
+\subsection{Property: Cauchy Inequality}\label{cauchy}The norm of the directional derivative in the direction $\vec{u}$ is less than or equal to the norm of the gradient times the norm of the direction vector, which is always 1.
+\begin{equation} \label{eq:1}
+    |D_u f|\leq |\nabla f(\vec{x})||\vec{u}|=|\nabla f(\vec{x})|
+\end{equation}
+\subsection{Property: Along the gradient itself}
+If you take the derivative in the direction of the gradient, the direction of greatest change, the derivative is actually just the norm of the gradient. That is, it is the maximum of \ref{eq:1}
+For $\vec{u}=\frac{\nabla f}{|\nabla f|}$, one has
+$$D_u f=\frac{\nabla f\cdot \nabla f}{|\nabla f|}=\frac{|\nabla f|^2}{|\nabla f|}=|\nabla f|$$.
+\subsection{In the opposite direction}
+\begin{proposition}{$D_{-u}f=-D_u f$}\end{proposition}
+\begin{proof}
+\begin{align*}
+    D_{\vec{-u}}f=\nabla f\cdot -\vec{u}&=\sum_i^n D_i f(-u_i)\\
+    &=-\sum_i^nD_ifu_i\\
+    &=-\nabla f\cdot \vec{u}=-D_uf
+\end{align*}
+\end{proof}
+
+\subsection{Continuity}
+The existence of a (or even all) directional derivatives does not imply continuity.
+
+\subsubsection{Examples}
+\begin{enumerate}
+    \item $f:\R^2\to\R$ that takes the value $0$ on the axis but 1 everywhere else has all directional derivatives, but is discontinuous at $(0,0)$.
+    \item Let \[ f(x,y)= \begin{cases} 
+      \frac{x^2y}{x^2+y^2} & x\not = 0\\
+      0 & x=0 
+   \end{cases}.
+\] Then $f$ is continuous at the origin (since $\lim_{x,y\to(0,0)}f(x,y)=f(0,0)$) but has unequal partial derivatives.
+
+$$D_1f(0,0)=D_{(1,0)}f(0,0)=0=D_2f(0,0)=D_{(0,1)}f(0,0)$$
+
+However, $D_{(1,1)}f(0,0)=\frac{1}{2}$
+\begin{question}{1}
+I don't really understand why this shows that the function is discontinuous. The example in the book (Gian. p3) is confusing, and I'm not even sure how you would evaluate the partial derivatives in our notes, since it gives $\frac{0}{0}$. You could take the limit, but that's sort of different.
+\vspace{2in}
+\end{question}
+\end{enumerate}
+
+\section{Differentiable Equations \& Linear Tangent Map}
+\definition
+{Diff. functions \& tangent map}
+Let $A \subset \R^n, f:A\to\R, x_0\in\text{interior}(A)$. We say $f$ is differentiable at $x_0$ if there exists some linear function $L:\R^n\to\R$ such that 
+\begin{equation}
+    \lim_{h\to0}\frac{f(x_0+h)-f(x_0)-L(h)}{|h|}=0
+\end{equation}
+$L$ is called the differential or tangent map (linear tangent map) of $f$ at $x_0$ denoted $df_{x_0}$ or $df(x_0)$.
+
+An alternate notation
+\begin{equation}
+    f(x_0+h)=f(x_0)+df_{x_0}(h)+o(|h|)
+\end{equation}
+This latter notation states that a function evaluated $h$ away from a known point $x_0$ is equivalent to the function evaluated at $x_0$, plus the "differential" at $x_0$ (the immediate rate of change), plus some error that is less than the offset.
+
+\begin{remark}{on the tangent map}
+The tangent map sort of creates a new, linear space at the point of a function. It is like taking the behavior of the function at that point, and making a whole new (linear) vector space at that point.
+\end{remark}
+
+\begin{proposition}
+
+\end{proposition}
+
+\begin{theorem}
+This is a theorem
+\end{theorem}
+
+\end{document}
