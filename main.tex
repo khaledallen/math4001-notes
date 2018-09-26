@@ -575,8 +575,8 @@ Then there is a point $c$ on $S$ such that $|f(b)-f(a)|\leq|\textbf{D}f(c)(b-a)|
 
 \begin{theorem}
     (Taylor) Let $f$ have $f^{(n)}$ everywhere in $(a,b)$ that $f^{(n-1)}$ continuous on $[a,b]$, and for every $x\in[a,b]$ there is an $x_1(c,x)$. Then
-    \begin{equation}
-        f(x)=f(c)+\underbrace{\sum_{k=1}^{n-1}\frac{f^{(k)(c)}}{k!}(x-c)^k}_{(n-1) \text{degree approx. polynomial}}+\underbrace{\frac{f^{(n)}(x_1)}{n!}x-1^n}_{\text{error term}}
+    \begin{equation}\label{taylors}
+        f(x)=f(c)+\underbrace{\sum_{k=1}^{n-1}\frac{f^{(k)}(c)}{k!}(x-c)^k}_{(n-1) \text{degree approx. polynomial}}+\underbrace{\frac{f^{(n)}(x_1)}{n!}(x-c)^n}_{\text{error term}}
     \end{equation}
     \begin{proof}
         Using another theorem \begin{theorem}
@@ -586,6 +586,14 @@ Then there is a point $c$ on $S$ such that $|f(b)-f(a)|\leq|\textbf{D}f(c)(b-a)|
             \]
         \end{theorem}
         For Taylor's Theorem, we consider the special case $g(x)=(x-c)^n$ so that $g^{(j)}=(n)(n-1)\cdots(n-j+1)(x-c)^{n-j}$. Then $g^{(i)}(x)$ evaluated at $x=c$ is always $0$, and $g^{(n)}(x)=n!$ for all $x$.
+
+        As a result,
+        \[
+            \left[f(x)-\sum^{n-1}_{k=0}\frac{f^{(k)}(c)}{k!}(x-c)^k\right]n! =f^{(n)}(x_1)(x-c)^n
+        \]
+        \[
+            \implies f(x)=\sum^{n-1}_{k=0}\frac{f^{(k)}(c)}{k!}(x-c)^k+\frac{f^{(n)}(x_1)}{n!}(x-c)^n
+        \]
 
         Proceeding with the main proof:
 
@@ -610,5 +618,35 @@ Then there is a point $c$ on $S$ such that $|f(b)-f(a)|\leq|\textbf{D}f(c)(b-a)|
             \frac{f^{(n)}(t)}{(n-1)!}(x-t)^{n-1}[G(x)-G(c)]=\frac{f^{(n)}(t)}{(n-1)!}(x-t)^{n-1}[F(x)-F(c)]
         \end{align*}
     \end{proof}
+    \begin{question}{7.5}
+       In the notes, we finish this proof by settings $t=x$. However, that will negate these derivatives.\vspace{2in} 
+    \end{question}
 \end{theorem}
+
+\subsection{Taylor's Theorem for Functions from $\R^n$ to $\R$}
+We want to get a formula that is somewhat similar to (\ref{taylors}).
+\subsubsection{Multiindices}
+We start by defining a new notation calling \textbf{multiindices}.
+\begin{definition}
+    Let $\alpha=(\alpha_1,\alpha_2,\cdots,\alpha_n), \alpha_j\geq 0$.
+    We call $\alpha$ and \textbf{multiindex} and define the following operations on $\alpha$:
+    \begin{itemize}
+       \item The norm: $|\alpha|=\alpha_1+\alpha_2+\cdots+\alpha_n$ 
+       \item The factorial: $\alpha! = \alpha_1!\alpha_2!\cdots\alpha_n!$
+       \item The monomial term: Let $x=(x_1,x_2,\cdots,x_n)$. Then $x^\alpha=x_1^{\alpha_1}x_2^{\alpha_2}\cdots x_n^{\alpha_n}$
+       \item Coefficients: Let $C_\alpha$ be a coefficient that depetsn on $\{\alpha_i\}$.
+       \item Polynomials: $P(x)=\sum_{|\alpha|=m}C_\alpha x^\alpha$. So for $m=2$, there are three possibilities for the terms: $\alpha_1,\alpha_2=1,1;2,0;0,2$.
+    \end{itemize}
+\end{definition}
+Letting $x\in\R^n$, and supposing that the needed partials exist at $x$ and that $t=(t_1,t_2,\cdots,t_n)\in\R^n$.
+
+Then we write 
+\begin{align*}
+   f'(\vec{x},\vec{t})&=\sum_{i=1}^nD_if(x)t_i\\ 
+   f''(\vec{x},\vec{t})&=\sum_{i=1}^n\sum_{j=1}^nD_iD_jf(x)t_i\\ 
+   f'''(\vec{x},\vec{t})&=\sum_{i=1}^n\sum_{j=1}^n\sum_{k=1}^nD_iD_jD_kf(x)t_i\\ 
+\end{align*}
+
+
+
 \end{document}
